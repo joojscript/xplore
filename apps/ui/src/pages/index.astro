@@ -1,0 +1,10 @@
+---
+import Map from "../components/Map";
+import Overlay from "../components/Overlay.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <Overlay />
+  <Map client:only="react" />
+</Layout>
