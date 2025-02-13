@@ -24,7 +24,10 @@ defmodule Core.MixProject do
 
   defp deps do
     [
-      {:surrealdb_ex, "~> 0.0.2"}
+      {:surrealdb_ex, "~> 0.0.2"},
+      {:bandit, "~> 1.0"},
+      {:poison, "~> 6.0"},
+      {:exconstructor, "~> 1.2.11"}
     ]
   end
 end
