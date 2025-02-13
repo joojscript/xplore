@@ -15,4 +15,16 @@ defmodule Xplore.Sites.Repository do
       %{}
     )
   end
+
+  @spec get_all_by_ids(list(String.t())) ::
+          {:ok, SurrealEx.Domain.ExecutionSuccess} | {:error, SurrealEx.Domain.ExecutionError}
+  def get_all_by_ids(ids) when is_list(ids) do
+    ids_query_string = ids |> Enum.map(&("\"" <> &1 <> "\"")) |> Enum.join(", ")
+
+    SurrealEx.query(
+      Xplore.Database,
+      to_string("SELECT * FROM whc_sites WHERE id_no IN [#{ids_query_string}]"),
+      %{}
+    )
+  end
 end

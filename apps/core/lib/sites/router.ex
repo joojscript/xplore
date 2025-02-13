@@ -30,6 +30,23 @@ defmodule Xplore.Sites.Router do
     end
   end
 
+  get "/optimized-route" do
+    params = conn.query_params
+
+    # In case of error, let it raise (I'm not implementing validations for this test, but could...)
+    sites = Map.get(params, "sites") |> Poison.decode!()
+
+    response = Sites.Service.get_optimized_route(sites: sites)
+
+    case response do
+      {:ok, route} ->
+        Web.Response.ok(conn, route)
+
+      {:error, exception} ->
+        Web.Response.bad_request(conn, exception)
+    end
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
