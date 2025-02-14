@@ -1,38 +1,20 @@
 ---
+import LanguageSelector from "./LanguageSelector";
 import SiteSelector from "./SiteSelector";
+import Title from "./Title";
 ---
 
-<div
+<!-- <div
   class="z-10 min-w-lg fixed top-0 left-0 right-0 bottom-0 bg-black/50 text-white flex flex-col justify-center items-center rounded-tr-2xl sm:right-0 sm:top-auto sm:rounded-bl-2xl sm:min-h-full sm:absolute"
+> -->
+<LanguageSelector client:only="react" />
+
+<div
+  id="overlay"
+  class="z-10 min-w-auto border fixed bottom-0 left-0 right-0 bg-gray-600 text-white py-2 px-8 rounded-tl-2xl rounded-tr-2xl sm:top-1/2 sm:right-0 sm:bottom-auto sm:left-auto sm:transform sm:-translate-y-1/2 sm:rounded-bl-2xl sm:rounded-tr-none sm:max-w-xs sm:w-auto sm:min-w-xl"
 >
-  <div
-    id="overlay"
-    class="min-w-lg max-w-4xl w-lg bg-gray-600 absolute right-0 top-auto py-2 px-8 rounded-tl-2xl border shadow-xl"
-  >
-    <div class="flex justify-center items-center">
-      <img src="/xplore-logo.png" alt="Xplore" class="w-32" />
-      <h3 class="text-4xl text-center font-black">
-        Select your destinations below:
-      </h3>
-    </div>
+  <Title client:only="react" />
 
-    <SiteSelector client:only="react" />
-  </div>
+  <SiteSelector client:only="react" />
 </div>
-
-<script>
-  const fixResizing = () => {
-    const overlayEl = document.getElementById("overlay");
-    if (!overlayEl) return;
-    if (window.innerWidth < 768) {
-      overlayEl.classList.remove("right-0", "top-auto", "rounded-bl-2xl");
-      overlayEl.classList.add("bottom-0", "rounded-tr-2xl");
-    } else {
-      overlayEl.classList.remove("bottom-0", "rounded-tr-2xl");
-      overlayEl.classList.add("right-0", "top-auto", "rounded-bl-2xl");
-    }
-  };
-
-  window.addEventListener("load", fixResizing);
-  window.addEventListener("resize", fixResizing);
-</script>
+<!-- </div> -->

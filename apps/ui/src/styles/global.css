@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Hide Cesium Map HUD */
+.cesium-viewer-animationContainer, .cesium-viewer-timelineContainer, .cesium-viewer-bottom, .cesium-viewer-fullscreenContainer, .cesium-viewer-toolbar {
+  display: none !important;
+}

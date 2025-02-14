@@ -36,6 +36,7 @@ const Map: React.FC = () => {
         infoBox={false}
         skyBox={false}
         timeline={false}
+        animation={false}
         // @ts-expect-error
         ref={mapRef}
         style={{ minWidth: "515px" }}

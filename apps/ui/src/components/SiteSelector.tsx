@@ -4,6 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import type { Site } from "../@types/sites";
 import { BackendService } from "../services/backend";
+import { LanguageStore, SelectedLanguageStore } from "../stores/language.store";
 import {
   addSite,
   FocusedSiteStore,
@@ -23,6 +24,8 @@ async function loadData(page: number = 1) {
 const SiteSelector: React.FC = () => {
   const sites = useStore(SitesStore);
   const selectedSites = useStore(SelectedSiteStore);
+  const language = useStore(LanguageStore);
+  const selectedLanguage = useStore(SelectedLanguageStore);
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
@@ -65,17 +68,24 @@ const SiteSelector: React.FC = () => {
             key={site.id}
             className="flex flex-col justify-center items-center max-h-96 min-h-96 mt-4"
           >
-            <h2 className="font-bold">{site.name_en}</h2>
+            {/* @ts-expect-error */}
+            <h2 className="font-bold">{site["name_" + selectedLanguage]}</h2>
             <div className="min-h-4" />
             <div className="flex flex-col overflow-y-auto px-12">
               <p
                 className="font-light text-sm"
-                dangerouslySetInnerHTML={{ __html: site.short_description_en }}
+                dangerouslySetInnerHTML={{
+                  // @ts-expect-error
+                  __html: site["short_description_" + selectedLanguage],
+                }}
               />
               <div className="min-h-2" />
               <p
                 className="font-light text-sm"
-                dangerouslySetInnerHTML={{ __html: site.justification_en }}
+                dangerouslySetInnerHTML={{
+                  // @ts-expect-error
+                  __html: site["justification_" + selectedLanguage],
+                }}
               />
             </div>
             <div className="min-h-8" />
@@ -93,7 +103,7 @@ const SiteSelector: React.FC = () => {
                 htmlFor={`select-site-${site.id}-${index}`}
                 className="text-lg"
               >
-                Select
+                {language["select"]}
               </label>
             </div>
           </div>

@@ -25,3 +25,25 @@ import "../styles/global.css";
     background-color: black;
   }
 </style>
+<script>
+  import {
+    AppLanguages,
+    SelectedLanguageStore,
+  } from "../stores/language.store";
+
+  function loadTranslation() {
+    const localStorageLanguage =
+      localStorage.getItem("language") || localStorage.getItem("lang");
+    const language = localStorageLanguage || navigator.language;
+
+    const isValidLanguage = (Object.values(AppLanguages) as string[]).includes(
+      language
+    );
+
+    if (!isValidLanguage) return;
+
+    SelectedLanguageStore.set(language as AppLanguages);
+  }
+
+  window.addEventListener("load", loadTranslation);
+</script>
