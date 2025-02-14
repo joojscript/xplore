@@ -29,6 +29,36 @@ const Map: React.FC = () => {
     });
   }, [focusedSite]);
 
+  const buildPolyline = () => {
+    if (selectedSites.size < 2) return <></>;
+    const positions = Array.from(optimalRoute)
+      .map((site_id) => {
+        const site = Array.from(selectedSites).find(
+          (site) => site.id_no === site_id
+        );
+        if (!site) return;
+
+        return Cartesian3.fromDegrees(
+          Number(site!.longitude),
+          Number(site!.latitude)
+        );
+      })
+      .filter(Boolean);
+
+    if (positions.length != optimalRoute.size) return <></>;
+
+    return (
+      <Entity
+        polyline={{
+          // @ts-expect-error
+          positions,
+          width: 2,
+          material: Color.WHITE,
+        }}
+      />
+    );
+  };
+
   return (
     <>
       <Viewer
@@ -75,24 +105,7 @@ const Map: React.FC = () => {
           );
         })}
 
-        {optimalRoute.size >= 2 && (
-          <Entity
-            polyline={{
-              positions: Array.from(optimalRoute).map((site_id) => {
-                const site = Array.from(selectedSites).find(
-                  (site) => site.id_no === site_id
-                );
-
-                return Cartesian3.fromDegrees(
-                  Number(site!.longitude),
-                  Number(site!.latitude)
-                );
-              }),
-              width: 2,
-              material: Color.WHITE,
-            }}
-          />
-        )}
+        {buildPolyline()}
       </Viewer>
     </>
   );

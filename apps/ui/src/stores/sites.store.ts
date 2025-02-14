@@ -17,6 +17,12 @@ export const selectSite = (site: Site) => {
   SelectedSiteStore.set(new Set([...currentValue.values(), site]));
 };
 
+export const deselectSite = (site: Site) => {
+  const currentValue = SelectedSiteStore.get();
+  currentValue.delete(site);
+  SelectedSiteStore.set(new Set(currentValue));
+};
+
 // Store Hooks:
 SelectedSiteStore.listen(async (selectedSites) => {
   if (selectedSites.size > 2) {
@@ -32,5 +38,7 @@ SelectedSiteStore.listen(async (selectedSites) => {
   } else if (selectedSites.size == 2) {
     const ids = Array.from(selectedSites).map((site) => site.id_no);
     OptimalRouteStore.set(new Set(ids));
+  } else {
+    OptimalRouteStore.set(new Set());
   }
 });

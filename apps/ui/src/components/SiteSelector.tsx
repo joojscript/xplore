@@ -7,6 +7,7 @@ import { BackendService } from "../services/backend";
 import { LanguageStore, SelectedLanguageStore } from "../stores/language.store";
 import {
   addSite,
+  deselectSite,
   FocusedSiteStore,
   SelectedSiteStore,
   selectSite,
@@ -42,13 +43,15 @@ const SiteSelector: React.FC = () => {
   };
 
   const handleSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const focusedSite = FocusedSiteStore.get();
+    if (!focusedSite) return;
+    const site = Array.from(sites).find(
+      (site) => site.name_en === focusedSite.name_en
+    );
     if (event.target.checked) {
-      const focusedSite = FocusedSiteStore.get();
-      if (!focusedSite) return;
-      const site = Array.from(sites).find(
-        (site) => site.name_en === focusedSite.name_en
-      );
       if (site) selectSite(site);
+    } else {
+      if (site) deselectSite(site);
     }
   };
 
@@ -89,16 +92,17 @@ const SiteSelector: React.FC = () => {
               />
             </div>
             <div className="min-h-8" />
-            <div className="flex justify-evenly items-center w-24">
+            <div className="flex justify-center items-center w-1/4">
               <input
                 type="checkbox"
                 id={`select-site-${site.id}-${index}`}
                 onChange={handleSelect}
-                className="h-5 w-5"
+                className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
                 checked={
                   !!Array.from(selectedSites).find((s) => s.id_no == site.id_no)
                 }
               />
+              <div className="w-3" />
               <label
                 htmlFor={`select-site-${site.id}-${index}`}
                 className="text-lg"
