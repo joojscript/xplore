@@ -6,8 +6,8 @@ config :surrealdb_ex,
   connection_config: [
     hostname: System.get_env("SURREALDB_HOSTNAME", "localhost"),
     port: System.get_env("SURREALDB_PORT", "8000"),
-    username: EnvUtils.get_env!("SURREALDB_USERNAME"),
-    password: EnvUtils.get_env!("SURREALDB_PASSWORD"),
+    username: System.get_env("SURREALDB_USERNAME", "root"),
+    password: System.get_env("SURREALDB_PASSWORD", "root"),
     database: System.get_env("SURREALDB_DATABASE", "xplore"),
-    namespace: EnvUtils.get_env!("SURREALDB_NAMESPACE")
+    namespace: System.get_env("SURREALDB_NAMESPACE", "default")
   ]

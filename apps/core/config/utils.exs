@@ -21,21 +21,3 @@ if config_env() in [:dev, :test] do
     end
   end
 end
-
-defmodule EnvUtils do
-  @moduledoc """
-  A temporary module, built to help with the config phase of the application.
-  """
-
-  @doc """
-  Retrieves an environment variable or raises an error if it is not found.
-  It tries to replicate the behavior of System.get_env/1, but raises an error
-  if the environment variable is not found.
-  """
-  def get_env!(key) do
-    case System.get_env(key) do
-      nil -> raise "Environment variable #{key} not found"
-      value -> value
-    end
-  end
-end

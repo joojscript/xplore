@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  core:
+    build:
+      context: .
+      dockerfile: ./apps/core/Dockerfile
+    environment:
+      MIX_ENV: prod
+      SURREALDB_HOSTNAME: ${SURREALDB_HOSTNAME:-surrealdb}
+      SURREALDB_PORT: ${SURREALDB_PORT:-8000}
+      SURREALDB_USERNAME: ${SURREALDB_USERNAME:-root}
+      SURREALDB_PASSWORD: ${SURREALDB_PASSWORD:-root}
+      SURREALDB_DATABASE: ${SURREALDB_DATABASE:-xplore}
+      SURREALDB_NAMESPACE: ${SURREALDB_NAMESPACE:-default}
+    ports:
+      - "4000:4000"
+    networks:
+      - stack_network
+    depends_on:
+      - surrealdb
+
+  ui:
+    build:
+      context: ./apps/ui
+      dockerfile: Dockerfile
+    environment:
+      BACKEND_URL: ${BACKEND_URL:-http://0.0.0.0:4000}
+    ports:
+      - "3000:4321"
+    networks:
+      - stack_network
+    depends_on:
+      - core
+
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    ports:
+      - "8000:8000"
+    networks:
+      - stack_network
+    command: start --log debug --user ${SURREALDB_USERNAME:-root} --pass ${SURREALDB_PASSWORD:-root} memory
+
+networks:
+  stack_network:

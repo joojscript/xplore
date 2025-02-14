@@ -24,5 +24,6 @@ SelectedLanguageStore.subscribe((language) => {
     .then((response) => response.json())
     .then((data) => {
       LanguageStore.set(data);
-    });
+    })
+    .catch(console.error);
 });

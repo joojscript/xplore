@@ -1,3 +1,8 @@
+require Logger
+
+execution_initialization_ms = System.os_time(:millisecond)
+Logger.info("Starting migration script...")
+
 file_path = Path.join([__DIR__, "whc-sites.csv"])
 config_path = Path.join([__DIR__, "config", "config.exs"])
 
@@ -11,10 +16,10 @@ Config.Reader.read!(config_path, env: :dev)
 connection_config = [
   hostname: System.get_env("SURREALDB_HOSTNAME", "localhost"),
   port: System.get_env("SURREALDB_PORT", "8000"),
-  username: EnvUtils.get_env!("SURREALDB_USERNAME"),
-  password: EnvUtils.get_env!("SURREALDB_PASSWORD"),
+  username: System.get_env("SURREALDB_USERNAME", "root"),
+  password: System.get_env("SURREALDB_PASSWORD", "root"),
   database: System.get_env("SURREALDB_DATABASE", "xplore"),
-  namespace: EnvUtils.get_env!("SURREALDB_NAMESPACE")
+  namespace: System.get_env("SURREALDB_NAMESPACE", "default")
 ]
 
 {:ok, pid} = SurrealEx.start_link(connection_config)
@@ -22,7 +27,6 @@ connection_config = [
 File.stream!(file_path, [:trim_bom, encoding: :utf8])
 |> CSV.decode(escape_max_lines: 100)
 |> Stream.map(fn {:ok, row} -> row end)
-# |> Stream.map(&IO.inspect/1)
 |> Stream.map(fn list ->
   SurrealEx.create(pid, "whc_sites", %{
     unique_number: Enum.at(list, 0),
@@ -77,3 +81,9 @@ File.stream!(file_path, [:trim_bom, encoding: :utf8])
   })
 end)
 |> Stream.run()
+
+execution_finished_ms = System.os_time(:millisecond)
+
+Logger.info(
+  "Migration script finished in #{(execution_finished_ms - execution_initialization_ms) / 1000}s"
+)
