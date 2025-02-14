@@ -11,12 +11,15 @@ defmodule Xplore.Sites.Router do
     json_decoder: Poison
   )
 
-  # plug(Web.Plugs.ExtractMetaHeaders)
   plug(:dispatch)
 
   get "/" do
     # In case of unsuccessful parse, let it raise
-    page = (get_req_header(conn, "x-page") |> List.first() || "1") |> Integer.parse() |> elem(0)
+    page =
+      case (get_req_header(conn, "x-page") |> List.first() || "1") |> Integer.parse() do
+        {page, _} -> page
+        :error -> raise "Invalid page"
+      end
 
     response = Sites.Service.get_all(page: page)
 
@@ -33,7 +36,15 @@ defmodule Xplore.Sites.Router do
     params = conn.query_params
 
     # In case of error, let it raise (I'm not implementing validations for this test, but could...)
-    sites = Map.get(params, "sites") |> Poison.decode!()
+    sites =
+      case Map.get(params, "sites") do
+        nil -> []
+        sites -> Poison.decode!(sites)
+      end
+
+    if length(sites) < 2 do
+      raise "No sites provided"
+    end
 
     response = Sites.Service.get_optimized_route(sites: sites)
 

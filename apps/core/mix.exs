@@ -28,7 +28,8 @@ defmodule Core.MixProject do
       {:bandit, "~> 1.0"},
       {:cors_plug, "~> 3.0"},
       {:poison, "~> 6.0"},
-      {:exconstructor, "~> 1.2.11"}
+      {:exconstructor, "~> 1.2.11"},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 end

@@ -1,19 +1,9 @@
-# defmodule Xplore.CORSPlug do
-#   import Plug.Conn
-
-#   def init(opts), do: opts
-
-#   def call(conn, _opts) do
-#     conn
-#     |> put_resp_header("Access-Control-Allow-Origin", "*")
-#     |> send_resp(200, "")
-#   end
-# end
-
 defmodule Xplore.Router do
   use Plug.Router
+  use Plug.ErrorHandler
 
   alias Xplore.Sites
+  alias Xplore.Utils.Web
 
   plug(CORSPlug,
     headers: [
@@ -34,9 +24,9 @@ defmodule Xplore.Router do
 
   forward("/sites", to: Sites.Router)
 
-  get "/sites" do
-    conn
-    |> send_resp(200, "Hello, world!")
+  @impl Plug.ErrorHandler
+  def handle_errors(conn, %{kind: _kind, reason: reason, stack: _stack}) do
+    Web.Response.internal_server_error(conn, reason)
   end
 
   match _ do

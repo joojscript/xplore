@@ -13,6 +13,13 @@ defmodule Xplore.Utils.Web do
       |> put_resp_content_type("application/json")
       |> send_resp(400, body |> Poison.encode!())
     end
+
+    def internal_server_error(conn, body \\ %{})
+        when is_map(body) or is_struct(body) or is_list(body) do
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(500, body |> Poison.encode!())
+    end
   end
 
   defmodule Constants do

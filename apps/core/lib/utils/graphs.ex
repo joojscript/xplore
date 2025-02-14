@@ -4,6 +4,9 @@ defmodule Xplore.Utils.Graphs do
   @doc "Find the shortest path using a greedy nearest-neighbor approach"
   @type coordinates_tuple :: {latitude :: float(), longitude :: float()}
   @spec find_shortest_path(list(coordinates_tuple())) :: list(integer())
+  def find_shortest_path([]), do: []
+  def find_shortest_path([unique_element]), do: [unique_element]
+
   def find_shortest_path(coords) when is_list(coords) do
     graph = build_graph(coords)
     indexes = Map.keys(graph)
