@@ -26,6 +26,7 @@ defmodule Core.MixProject do
     [
       {:surrealdb_ex, "~> 0.0.2"},
       {:bandit, "~> 1.0"},
+      {:cors_plug, "~> 3.0"},
       {:poison, "~> 6.0"},
       {:exconstructor, "~> 1.2.11"}
     ]

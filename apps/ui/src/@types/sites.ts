@@ -1,6 +1,6 @@
 export type Site = {
   unique_number: number;
-  id_no: number;
+  id_no: string;
   rev_bis: string;
   name_en: string;
   name_fr: string;

@@ -61,7 +61,7 @@ defmodule Xplore.Sites.Service do
 
         shortest_path_sites =
           Enum.map(shortest_path, fn site_index ->
-            Enum.at(sites, site_index)
+            Enum.at(sites, site_index) |> Map.get("id_no")
           end)
 
         {:ok, shortest_path_sites}

@@ -15,22 +15,6 @@ defmodule Xplore.Utils.Web do
     end
   end
 
-  defmodule Plugs do
-    defmodule ExtractMetaHeaders do
-      @moduledoc """
-        Extract the default headers our API is going to use in order to have the pagination well set.
-      """
-      def init(options), do: options
-
-      def call(conn, _opts) do
-        headers = conn.req_headers
-        {_, page} = List.keyfind(headers, "page", 0)
-        List.insert_at(conn.req_headers, -1, {"page", page})
-        conn
-      end
-    end
-  end
-
   defmodule Constants do
     def default_page_size, do: 10
   end

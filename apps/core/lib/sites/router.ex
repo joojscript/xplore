@@ -11,13 +11,12 @@ defmodule Xplore.Sites.Router do
     json_decoder: Poison
   )
 
-  plug(Web.Plugs.ExtractMetaHeaders)
-
+  # plug(Web.Plugs.ExtractMetaHeaders)
   plug(:dispatch)
 
   get "/" do
     # In case of unsuccessful parse, let it raise
-    page = conn |> get_req_header("page") |> Enum.at(0) |> Integer.parse() |> elem(0)
+    page = (get_req_header(conn, "x-page") |> List.first() || "1") |> Integer.parse() |> elem(0)
 
     response = Sites.Service.get_all(page: page)
 
