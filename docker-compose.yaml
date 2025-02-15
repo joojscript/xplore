@@ -14,7 +14,7 @@ services:
       SURREALDB_DATABASE: ${SURREALDB_DATABASE:-xplore}
       SURREALDB_NAMESPACE: ${SURREALDB_NAMESPACE:-default}
     ports:
-      - "4000:4000"
+      - "${BACKEND_PORT:-4000}:4000"
     networks:
       - stack_network
     depends_on:
@@ -27,7 +27,7 @@ services:
     environment:
       BACKEND_URL: ${BACKEND_URL:-http://0.0.0.0:4000}
     ports:
-      - "3000:4321"
+      - "${FRONTEND_PORT:-3000}:4321"
     networks:
       - stack_network
     depends_on:
@@ -36,10 +36,14 @@ services:
   surrealdb:
     image: surrealdb/surrealdb:latest
     ports:
-      - "8000:8000"
+      - "${SURREALDB_PORT:-8000}:8000"
     networks:
       - stack_network
     command: start --log debug --user ${SURREALDB_USERNAME:-root} --pass ${SURREALDB_PASSWORD:-root} memory
+    healthcheck:
+      test:
+        ["CMD", "curl", "-f", "http://localhost:${SURREALDB_PORT:-8000}/status"]
+      interval: 10s
 
 networks:
   stack_network:
