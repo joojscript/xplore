@@ -76,6 +76,8 @@ _Below is an example of how you can get it running, and after it, migrating the 
    docker compose up -d
    ```
 
+**Important:** Be careful, the proxy container `nginx` will try to run on port `80`, in the compose file, you'll se the `CAP_ADD` command enabling it, but in some distros, this may cause errors. Because of this, you can set up `STACK_PORT` to any port you want, you'll interact with the application through this port, if set, otherwise, defaults to `80`.
+
 It will build the container images, and run them, you're almost good to go!
 
 4. Migrate data to the containers:
@@ -88,6 +90,20 @@ It will build the container images, and run them, you're almost good to go!
 5. Access your localhost at port 3000 (default), and you should see it up and running:
 
 ![Xplore Mobile](https://github.com/joojscript/xplore/blob/main/.github/assets/app_screenshot_mobile.png?raw=true)
+
+#### Other Available Environment Variables for you to customize your Compose run
+
+_Remember: all of these values have default counterparts, only change them if you intend to_
+
+* `STACK_PORT`: The port in which the Nginx Proxy will run, you'll interact with the application only through here.
+* `BACKEND_PORT`: The port in which the Elixir Backend will run.
+* `FRONTEND_PORT`: The port in which the Astro+React Frontend will run.
+* `SURREALDB_PORT`: The Surreal DB port.
+* `SURREALDB_HOSTNAME`: Ths Surreal DB hostname.
+* `SURREALDB_USERNAME`: Ths Surreal DB username.
+* `SURREALDB_PASSWORD`: Ths Surreal DB password.
+* `SURREALDB_DATABASE`: Ths Surreal DB database name.
+* `SURREALDB_NAMESPACE`: Ths Surreal DB namespace.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
