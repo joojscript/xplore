@@ -13,10 +13,10 @@ COPY . .
 
 # Set environment variables for development
 ENV HOST=0.0.0.0
-ENV PORT=4321
+ENV PORT=$FRONTEND_PORT
 
 # Expose the development port
-EXPOSE 4321
+EXPOSE $FRONTEND_PORT
 
 # Run the Astro development server
-CMD ["pnpm", "dev", "--host"]
+CMD ["sh", "-c", "pnpm dev --host --port $FRONTEND_PORT"]

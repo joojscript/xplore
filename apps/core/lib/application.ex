@@ -4,8 +4,8 @@ defmodule Core.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {SurrealEx, [name: Xplore.Database, schene: :http]},
-      {Bandit, plug: Xplore.Router}
+      {SurrealEx, [name: Xplore.Database]},
+      {Bandit, plug: Xplore.Router, port: System.get_env("PORT", "4000")}
     ]
 
     opts = [strategy: :one_for_one, name: Core.Supervisor]

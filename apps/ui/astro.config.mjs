@@ -14,6 +14,9 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+  devToolbar: {
+    enabled: false,
+  },
   env: {
     schema: {
       BACKEND_URL: {
