@@ -94,6 +94,7 @@ const SiteSelector: React.FC = () => {
             <div className="min-h-8" />
             <div className="flex justify-center items-center w-1/4">
               <input
+                data-testid="site-select-input"
                 type="checkbox"
                 id={`select-site-${site.id}-${index}`}
                 onChange={handleSelect}

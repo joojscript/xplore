@@ -16,6 +16,7 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <select
+      data-testid="language-selector"
       className="z-10 fixed top-2 left-2 bg-black/80! text-white! rounded-md p-2"
       defaultValue={selectedLanguage}
       onChange={handleChange}
