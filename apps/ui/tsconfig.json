@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [
+    "./vitest.setup.ts",
     ".astro/types.d.ts",
     "**/*"
   ],
@@ -9,6 +10,7 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "types": ["vitest/globals"]
   }
 }

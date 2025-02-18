@@ -49,6 +49,7 @@ const Map: React.FC = () => {
 
     return (
       <Entity
+        data-testid="optimal-route"
         polyline={{
           // @ts-expect-error
           positions,
@@ -88,6 +89,7 @@ const Map: React.FC = () => {
 
           return (
             <Entity
+              data-testid={`${site.id_no}-${index}`}
               key={`${site.id}-${index}`}
               description={site.justification_en}
               name={site.name_en}
