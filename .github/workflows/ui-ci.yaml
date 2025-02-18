@@ -1,0 +1,42 @@
+name: UI CI
+
+on:
+  push:
+    paths:
+      - "apps/ui/**"
+  pull_request:
+    paths:
+      - "apps/ui/**"
+
+workflow_dispatch:
+
+jobs:
+  test-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/ui
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+  build-ui:
+    runs-on: ubuntu-latest
+    needs: test-ui
+    defaults:
+      run:
+        working-directory: apps/ui
+    steps:
+      - name: Build application
+        run: npm run build
