@@ -7,8 +7,7 @@ on:
   pull_request:
     paths:
       - "apps/core/**"
-
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   test-core:
